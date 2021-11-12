@@ -3,7 +3,7 @@
 # Version: 1.0
 # Autor: Gabriel Franz
 # Datum: 05.11.2021
-# Beschreibung: Mit dem Skript ist es möglich, Benutzernamen und Passwörter zu speichern.
+# Beschreibung: Mit dem Skript ist es mÃ¶glich, Benutzernamen und PasswÃ¶rter zu speichern.
 # Code generiert von: SAPIEN Technologies PrimalForms (Community Edition) v1.0.10.0
 ########################################################################
 
@@ -38,7 +38,7 @@ $Gui1_Btn_Add_Click=
 {
 
     GenerateForm2 #Gui2 aufrufen / Funktion starten
-    $Gui1_Box_List.Items.clear() #Liste l�schen
+    $Gui1_Box_List.Items.clear() #Liste löschen
     $CSV = Import-CSV $SavePath #CSV Datei importieren
        
     foreach($Line in $CSV) #Liste neu zusammensetzen
@@ -52,9 +52,9 @@ $Gui1_Btn_Add_Click=
 $Gui1_Btn_Delete_Click= 
 {
 
-    $Name = $Gui1_Box_List.SelectedItem #Ausgew�hltes Item in Variable speichern
+    $Name = $Gui1_Box_List.SelectedItem #Ausgewähltes Item in Variable speichern
 
-    $Gui1_Box_List.Items.Remove($Gui1_Box_List.SelectedItem) #Eintrag l�schen
+    $Gui1_Box_List.Items.Remove($Gui1_Box_List.SelectedItem) #Eintrag löschen
 
     $CSV = Import-Csv $SavePath #CSV Datei importieren
 
@@ -64,7 +64,7 @@ $Gui1_Btn_Delete_Click=
         }
     }
 
-    $DeleteRow | Export-Csv $SavePath -NoTypeInformation #Eintrag in CSV l�schen
+    $DeleteRow | Export-Csv $SavePath -NoTypeInformation #Eintrag in CSV löschen
 
 }
 
@@ -83,8 +83,8 @@ $OnLoadForm_StateCorrection=
     $Gui1.WindowState = $InitialFormWindowState
 
     $CSV = Import-Csv $SavePath #CSV importieren
-    $Gui1_Box_List.Items.clear() #Alle Eintr�ge l�schen   
-    foreach($Line in $CSV) #Eintr�ge neu auflisten
+    $Gui1_Box_List.Items.clear() #Alle Einträge löschen   
+    foreach($Line in $CSV) #Einträge neu auflisten
     {
         $Name = "$($Line.NAME)"
         $Gui1_Box_List.Items.Add($Name)
@@ -222,10 +222,10 @@ $InitialFormWindowState = New-Object System.Windows.Forms.FormWindowState
 #Provide Custom Code for events specified in PrimalForms.
 $Gui2_Btn_Generate_Click=
 {
-        $OutputBox = GenerateForm4 #Return in Textbox einf�gen
+        $OutputBox = GenerateForm4 #Return in Textbox einfügen
 
-        if ($OutputBox -ne "") { #�berpr�fen ob return nicht leer ist
-            $Gui2_Box_Password.Text = $OutputBox #Passwort einf�gen
+        if ($OutputBox -ne "") { #Überprüfen ob return nicht leer ist
+            $Gui2_Box_Password.Text = $OutputBox #Passwort einfügen
             $Gui2_Box_Password.Refresh() #Passwort aktualisieren
         }
 
@@ -240,13 +240,13 @@ $Gui2_Btn_Add_Click=
     $Password = $Gui2_Box_Password.Text #Password von Textbox entnehmen
 
 
-    if ($Name -ne "" -and $Username -ne "" -and $Password -ne "") {  #Überprüfen, ob $Name, $Username und $Passwort leer ist
+    if ($Name -ne "" -and $Username -ne "" -and $Password -ne "") {  #ÃberprÃ¼fen, ob $Name, $Username und $Passwort leer ist
 
-        #Passwort verschl�sseln
+        #Passwort verschlüsseln
         $SecurePwd = $Password | ConvertTo-SecureString -AsPlainText -Force #Passwort zu sicheres Passwort konvertieren
-        $EncryptedPwd = $SecurePwd | ConvertFrom-SecureString #Sicheres Passwort verschl�sseln
+        $EncryptedPwd = $SecurePwd | ConvertFrom-SecureString #Sicheres Passwort verschlüsseln
 
-        $NewRow = New-Object PsObject -Property @{ NAME = $Name ; USERNAME = $Username ; PASSWORD = $EncryptedPwd } #Werte f�r CSV Zeile
+        $NewRow = New-Object PsObject -Property @{ NAME = $Name ; USERNAME = $Username ; PASSWORD = $EncryptedPwd } #Werte für CSV Zeile
         $NewRow | Export-Csv -Path $SavePath -Force -Append #Neue Zeile mit den oberen Werten erstellen
 
         $Gui2.close() #GUI 2 schliessen
@@ -499,7 +499,7 @@ $Gui3_Btn_Save_Click=
     $NewUsername = $Gui3_Box_Username.Text #Neuer Username deklarieren
     $NewPassword = $Gui3_Box_Password.Text #Neues Passwort Deklarieren
 
-    if ($NewName -ne "" -and $NewUsername -ne "" -and $NewPassword -ne "") {  #Überprüfen, ob $Name, $Username und $Passwort leer ist
+    if ($NewName -ne "" -and $NewUsername -ne "" -and $NewPassword -ne "") {  #ÃberprÃ¼fen, ob $Name, $Username und $Passwort leer ist
 
         #Detele Row
         $Name = $Gui1_Box_List.SelectedItem #$Name deklarieren
@@ -514,21 +514,21 @@ $Gui3_Btn_Save_Click=
             }
         }
 
-        $DeleteRow | Export-CSV -Path $SavePath -NoTypeInformation #Zeile löschen
+        $DeleteRow | Export-CSV -Path $SavePath -NoTypeInformation #Zeile lÃ¶schen
 
-        #Passwort verschl�sseln
+        #Passwort verschlüsseln
         $SecurePwd = $NewPassword | ConvertTo-SecureString -AsPlainText -Force #Passwort zu sicheres Passwort konvertieren
-        $EncryptedPwd = $SecurePwd | ConvertFrom-SecureString #Sicheres Passwort verschl�sseln
+        $EncryptedPwd = $SecurePwd | ConvertFrom-SecureString #Sicheres Passwort verschlüsseln
 
         $NewRow = New-Object PsObject -Property @{ NAME = $NewName ; USERNAME = $NewUsername ; PASSWORD = $EncryptedPwd }
         $NewRow | Export-CSV $SavePath -Force -Append
 
         $CSV = Import-Csv $SavePath #CSV importieren
-        $Gui1_Box_List.Items.clear() #Eintrage l�schen
-        foreach($Line in $CSV) #Eintr�ge neu zusammensetzen
+        $Gui1_Box_List.Items.clear() #Eintrage löschen
+        foreach($Line in $CSV) #Einträge neu zusammensetzen
         {
             $Name = "$($Line.NAME)"
-            $Gui1_Box_List.Items.Add($Name) #$Name hinzufügen
+            $Gui1_Box_List.Items.Add($Name) #$Name hinzufÃ¼gen
         }
 
         $Gui3.close() #GUI3 schliessen
@@ -544,13 +544,13 @@ $OnLoadForm_StateCorrection=
 {#Correct the initial state of the form to prevent the .Net maximized form issue
     $Gui3.WindowState = $InitialFormWindowState
 
-    $Name = $Gui1_Box_List.SelectedItem #$Name von ausgewähltem Item deklarieren
+    $Name = $Gui1_Box_List.SelectedItem #$Name von ausgewÃ¤hltem Item deklarieren
 
     $CSV = Import-Csv $SavePath #Variabel in CSV importieren
 
     foreach ($Line in $CSV) {
 
-        if ($Line.NAME -eq $Name) { #Prüfen ob $Line.NAME gleich wie $Name ist
+        if ($Line.NAME -eq $Name) { #PrÃ¼fen ob $Line.NAME gleich wie $Name ist
             
             $Name = $Line.NAME #Name auslesen
             $Username = $Line.USERNAME #Username auslesen
@@ -561,7 +561,7 @@ $OnLoadForm_StateCorrection=
 
     try { #Befehl unten funktioniert nicht richtig, deswegen einfach Error verbergen
         if ($EncryptedPwd -ne $null -or $EncryptedPwd -ne "") {        
-            #Passwort entschl�sseln
+            #Passwort entschlüsseln
             $SecurePwd = $EncryptedPwd | ConvertTo-SecureString -ErrorAction SilentlyContinue #Encrypted Passwort zu Secure Passwort konvertieren
             $Marshal = [System.Runtime.InteropServices.Marshal]
             $Bstr = $Marshal::SecureStringToBSTR($SecurePwd) 
@@ -572,9 +572,9 @@ $OnLoadForm_StateCorrection=
 
     }
 
-    $Gui3_Box_Name.Text = $Name #Name in Textbox einf�gen
-    $Gui3_Box_Username.Text = $Username #Username in Textbox einf�gen
-    $Gui3_Box_Password.Text = $Password #Password in Textbox einf�gen
+    $Gui3_Box_Name.Text = $Name #Name in Textbox einfügen
+    $Gui3_Box_Username.Text = $Username #Username in Textbox einfügen
+    $Gui3_Box_Password.Text = $Password #Password in Textbox einfügen
 
 }
 
@@ -777,50 +777,50 @@ function GenerateForm4 {
         $PasswordPrint = New-Object System.Collections.ArrayList
 
 
-        #Wenn checkbox aktiviert, Grossbuchstaben zur Zeichenliste hinzufügen
+        #Wenn checkbox aktiviert, Grossbuchstaben zur Zeichenliste hinzufÃ¼gen
         if ($Gui4_CBox_Upper.Checked) {
             $CharArray += $Upper
         }
 
-        #Wenn checkbox aktiviert, Kleinbuchstaben zur Zeichenliste hinzufügen
+        #Wenn checkbox aktiviert, Kleinbuchstaben zur Zeichenliste hinzufÃ¼gen
         if ($Gui4_CBox_Lower.Checked) {
             $CharArray += $Lower
         }
 
-        #Wenn checkbox aktiviert, Zahlen zur Zeichenliste hinzufügen
+        #Wenn checkbox aktiviert, Zahlen zur Zeichenliste hinzufÃ¼gen
         if ($Gui4_CBox_Number.Checked) {
             $CharArray += $Number
         }
 
-        #Wenn checkbox aktiviert, Symbole zur Zeichenliste hinzufügen
+        #Wenn checkbox aktiviert, Symbole zur Zeichenliste hinzufÃ¼gen
         if ($Gui4_CBox_Symbol.Checked) {
             $CharArray += $Symbol
         }
 
-        #Überprüfen ob mindestens eine Checkbox aktiviert ist
+        #ÃberprÃ¼fen ob mindestens eine Checkbox aktiviert ist
         if ($Gui4_CBox_Upper.Checked -eq $False -and $Gui4_CBox_Lower.Checked -eq $False -and $Gui4_CBox_Number.Checked -eq $False -and $Gui4_CBox_Symbol.Checked -eq $False) {
             $Error = $True
             [System.Windows.MessageBox]::Show('You have to at least tick one box!','Passwort Manager','OK','Error')
         }
 
-        #Überprüfen ob Minimalwert grösser ist als Maximalwert (Sollte nicht möglich sein)
+        #ÃberprÃ¼fen ob Minimalwert grÃ¶sser ist als Maximalwert (Sollte nicht mÃ¶glich sein)
         if ($Min -gt $Max) {
             $Error = $True
             [System.Windows.MessageBox]::Show('The minimum value must be lower than the maximum value!','Passwort Manager','OK','Error')
         }
 
-        #Überprüfen ob Anzahl-, Minimal- oder Maximalwert gleich 0 ist
+        #ÃberprÃ¼fen ob Anzahl-, Minimal- oder Maximalwert gleich 0 ist
         if ($Min -eq 0 -or $Max -eq 0) {
             $Error = $True
             [System.Windows.MessageBox]::Show('The minimum or maximum value cant be zero!','Passwort Manager','OK','Error')
         }
 
-        if ($Error -eq $False) { #Überprüfen ob es keinen Error gab
-            $Length = Get-Random -Minimum $Min -Maximum $Max #Zufällige Länge aus dem Minimal und Maximal Wert generieren
-            $Password = ($CharArray | Get-Random -Count $Length) -join '' #Passwort aus der Zeichenliste und der Länge generieren
+        if ($Error -eq $False) { #ÃberprÃ¼fen ob es keinen Error gab
+            $Length = Get-Random -Minimum $Min -Maximum $Max #ZufÃ¤llige LÃ¤nge aus dem Minimal und Maximal Wert generieren
+            $Password = ($CharArray | Get-Random -Count $Length) -join '' #Passwort aus der Zeichenliste und der LÃ¤nge generieren
             $Password = "$Password"
 
-            $PasswordPrint.Add($Password) | Out-Null #Passwort zur Passwortausgabeliste hinzufügen
+            $PasswordPrint.Add($Password) | Out-Null #Passwort zur Passwortausgabeliste hinzufÃ¼gen
 
             $Gui4_Box_Output.Text = $PasswordPrint #Passwortprintliste ausgeben
         }
@@ -955,7 +955,7 @@ function GenerateForm4 {
     $System_Drawing_Size.Width = 191
     $Gui4_Txt_Max.Size = $System_Drawing_Size
     $Gui4_Txt_Max.TabIndex = 6
-    $Gui4_Txt_Max.Text = "Maximale L�nge"
+    $Gui4_Txt_Max.Text = "Maximale Länge"
     $Gui4_Txt_Max.TextAlign = 16
 
     $Gui4.Controls.Add($Gui4_Txt_Max)
@@ -972,7 +972,7 @@ function GenerateForm4 {
     $System_Drawing_Size.Width = 182
     $Gui4_Txt_Min.Size = $System_Drawing_Size
     $Gui4_Txt_Min.TabIndex = 5
-    $Gui4_Txt_Min.Text = "Minimale L�nge"
+    $Gui4_Txt_Min.Text = "Minimale Länge"
     $Gui4_Txt_Min.TextAlign = 16
 
     $Gui4.Controls.Add($Gui4_Txt_Min)
@@ -1087,13 +1087,13 @@ $SavePath = "$Path$FolderName\$FileName$ext" #Speicherpfad deklarieren
 $TestPath = Test-Path -Path ($Path+$FolderName)
 $TestFile = Test-Path -Path ($SavePath)
 
-if ($TestPath -eq $False) { #Überprüfen, ob Ordner in Pfad noch nicht vorhanden ist
+if ($TestPath -eq $False) { #ÃberprÃ¼fen, ob Ordner in Pfad noch nicht vorhanden ist
 
     [void](New-Item -itemType Directory -Path $Path -Name $FolderName) #Neuer Ordner erstellen
 
 }
 
-if ($TestFile -eq $False) { #Überprüfen, ob CSV Datei noch nicht vorhanden ist
+if ($TestFile -eq $False) { #ÃberprÃ¼fen, ob CSV Datei noch nicht vorhanden ist
     
     $NewCSV = {} | Select "NAME","USERNAME","PASSWORD" | Export-Csv $SavePath -Encoding ASCII -NoTypeInformation #Neues CSV erstellen
     [void][System.Windows.MessageBox]::Show("CSV Datei erstellt unter "+ $SavePath,'Passwort Manager','OK','Info')
